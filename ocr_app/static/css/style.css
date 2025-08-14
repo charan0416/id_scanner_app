@@ -1,0 +1,199 @@
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --text-color: #333;
+    --border-color: #dee2e6;
+    --success-color: #28a745;
+    --error-color: #dc3545;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+header, footer {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+}
+
+footer {
+    background-color: var(--secondary-color);
+    margin-top: 2rem;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+input[type="file"], select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.btn {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+/* Flash Messages */
+.flashes {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+.flash {
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+}
+.flash.success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+.flash.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+/* Results Page */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+.result-item h3 {
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+}
+pre {
+    background-color: var(--bg-color);
+    padding: 1rem;
+    border-radius: 4px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 0.9rem;
+}
+.face-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+.back-link {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+/* --- STYLES FOR NEW UPLOAD INTERFACE --- */
+
+/* Hides the default file input button */
+.upload-box input[type="file"] {
+    display: none;
+}
+
+/* Container for the two upload boxes */
+.upload-area {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Styling for each individual upload box (front/back) */
+.upload-box {
+    flex: 1; /* Each box takes up half the space */
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.upload-box:hover {
+    border-color: var(--primary-color);
+    background-color: #fdfdfd;
+}
+
+/* The label acts as the clickable area */
+.upload-box label {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.upload-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.upload-text {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    margin: 0.5rem 0;
+}
+
+.file-name {
+    font-size: 0.8rem;
+    color: var(--error-color);
+    font-style: italic;
+    word-break: break-all;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+    .upload-area {
+        flex-direction: column;
+    }
+}

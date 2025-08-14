@@ -1,1 +1,0 @@
-# id_scanner_app

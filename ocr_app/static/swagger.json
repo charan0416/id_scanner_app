@@ -1,0 +1,67 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "OCR AI API",
+    "description": "API for submitting documents (images or PDFs) for asynchronous OCR and data extraction.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/v1/extract": {
+      "post": {
+        "summary": "Submit documents for extraction",
+        "description": "Upload one or more files. The server will start a background job and return a task ID. Use the status_url to poll for completion.",
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          {
+            "name": "doc_type",
+            "in": "formData",
+            "type": "string",
+            "description": "A hint for the document type (e.g., 'Passport', 'Visa'). Optional."
+          },
+          {
+            "name": "files",
+            "in": "formData",
+            "type": "file",
+            "required": true,
+            "description": "One or more files (images or PDFs) to process."
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Processing started successfully.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {"type": "string"},
+                "task_id": {"type": "string"},
+                "status_url": {"type": "string", "format": "uri"}
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (e.g., no files uploaded)."
+          }
+        }
+      }
+    },
+    "/status/{task_id}": {
+      "get": {
+        "summary": "Check the status of a processing task",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "type": "string",
+            "required": true,
+            "description": "The ID of the task returned by the /extract endpoint."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current status of the task. The 'state' will be 'SUCCESS' when done, and the 'result' will contain the database ID of the processed document."
+          }
+        }
+      }
+    }
+  }
+}

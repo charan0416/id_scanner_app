@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Extraction Results{% endblock %}
+{% block content %}
+<div class="card results-card">
+    <h2>Results for {{ document.doc_type }} (ID: {{ document.id }})</h2>
+    <div class="results-grid">
+        <div class="result-item">
+            <h3>Extracted Data</h3>
+            <pre><code>{{ extracted_data }}</code></pre>
+        </div>
+        <div class="result-item">
+            <h3>Detected Photograph</h3>
+            {% if face_image_b64 %}
+                <img src="data:image/jpeg;base64,{{ face_image_b64 }}" alt="Detected Face" class="face-image">
+            {% else %}
+                <p>No photograph was detected or saved.</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="back-link">
+        <a href="{{ url_for('index') }}" class="btn">&larr; Scan Another Document</a>
+    </div>
+</div>
+{% endblock %}

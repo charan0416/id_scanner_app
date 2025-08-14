@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Processing History{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="history-header">
+        <h2>Processing History</h2>
+        <a href="{{ url_for('index') }}" class="btn">Scan New Document</a>
+    </div>
+    <table class="history-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Document Type</th>
+                <th>Processed At (UTC)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in history %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.doc_type }}</td>
+                <td>{{ item.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td><a href="{{ url_for('results', doc_id=item.id) }}" class="btn-small">View Results</a></td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4">No documents have been processed yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        {% if page > 1 %}
+        <a href="{{ url_for('history', page=page-1) }}">&laquo; Previous</a>
+        {% endif %}
+        <span>Page {{ page }} of {{ last_page }}</span>
+        {% if page < last_page %}
+        <a href="{{ url_for('history', page=page+1) }}">Next &raquo;</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

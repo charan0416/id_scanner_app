@@ -1,0 +1,16 @@
+Flask==2.3.3
+psycopg2-binary==2.9.9
+requests==2.31.0
+opencv-python-headless==4.8.1.78
+numpy==1.26.2
+python-dotenv==1.0.0
+celery==5.3.6
+redis==5.0.1
+paddlepaddle
+paddleocr
+Pillow==10.1.0
+gunicorn
+PyMuPDF==1.24.1
+# <<< THE FIX IS HERE >>>
+# We remove the incorrect version pin and let pip find the latest compatible version.
+Flask-Swagger-UI

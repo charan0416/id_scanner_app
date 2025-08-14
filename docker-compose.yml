@@ -1,0 +1,94 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: dockerfile
+    container_name: ocr_nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - app-1
+      - app-2
+    networks:
+      - ocr_network
+
+  app-1: &app_base
+    build: ./ocr_app
+    restart: always
+    expose:
+      - "5000"
+    env_file:
+      - .env
+    depends_on:
+      redis:
+        condition: service_started
+      db:
+        condition: service_healthy
+      ollama:
+        condition: service_started
+    volumes:
+      - ./ocr_app:/app
+    networks:
+      - ocr_network
+
+  app-2:
+    <<: *app_base
+
+  celery_worker-1: &celery_base
+    build: ./ocr_app
+    restart: always
+    command: ["celery", "-A", "app.celery", "worker", "--loglevel=info"]
+    env_file:
+      - .env
+    depends_on:
+      - app-1
+      - app-2
+      - redis
+    volumes:
+      - ./ocr_app:/app
+    networks:
+      - ocr_network
+
+  celery_worker-2:
+    <<: *celery_base
+
+  redis:
+    image: "redis:alpine"
+    container_name: ocr_redis
+    networks:
+      - ocr_network
+
+  db:
+    image: postgres:15-alpine
+    container_name: ocr_db
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ocr_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ollama:
+    build: ./ollama
+    container_name: ocr_ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - ocr_network
+
+volumes:
+  postgres_data:
+  ollama_data:
+
+networks:
+  ocr_network:
+    driver: bridge

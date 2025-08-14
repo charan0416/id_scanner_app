@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block title %}Upload Document{% endblock %}
+{% block content %}
+<div class="card">
+    <h2>Scan a New Document</h2>
+    <p>Upload or capture an image of the front and back of the document.</p>
+    <form method="POST" enctype="multipart/form-data" id="upload-form">
+        <div class="form-group">
+            <label for="doc_type">Document Type:</label>
+            <select name="doc_type" id="doc_type" required>
+                <option value="" disabled selected>-- Choose a type --</option>
+                <option value="Passport">Passport</option>
+                <option value="Driving License">Driving License</option>
+                <option value="Visa">Visa</option>
+                <option value="National ID Card">National ID Card</option>
+                <option value="Other">Other Document</option>
+            </select>
+        </div>
+
+        <!-- NEW UPLOAD INTERFACE -->
+        <div class="upload-area">
+            <!-- Front Image Upload Box -->
+            <div class="upload-box">
+                <input type="file" name="front_image" id="front_image" required accept="image/*" capture="environment">
+                <label for="front_image">
+                    <div class="upload-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v12h-16z" fill-opacity=".3"/><path d="M20 4h-3.17L15 2H9L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h4.05l1.83-2h4.24l1.83 2H20v12zM12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z"/></svg>
+                    </div>
+                    <strong>Front of Document</strong>
+                    <span class="upload-text">Tap to capture or click to upload</span>
+                    <span class="file-name" id="front-file-name">No file selected</span>
+                </label>
+            </div>
+
+            <!-- Back Image Upload Box -->
+            <div class="upload-box">
+                <input type="file" name="back_image" id="back_image" required accept="image/*" capture="environment">
+                 <label for="back_image">
+                    <div class="upload-icon">
+                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v12h-16z" fill-opacity=".3"/><path d="M20 4h-3.17L15 2H9L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h4.05l1.83-2h4.24l1.83 2H20v12zM12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z"/></svg>
+                    </div>
+                    <strong>Back of Document</strong>
+                    <span class="upload-text">Tap to capture or click to upload</span>
+                    <span class="file-name" id="back-file-name">No file selected</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn">Extract Data</button>
+        </div>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const frontInput = document.getElementById('front_image');
+    const backInput = document.getElementById('back_image');
+    const frontFileName = document.getElementById('front-file-name');
+    const backFileName = document.getElementById('back-file-name');
+
+    frontInput.addEventListener('change', function() {
+        if (this.files.length > 0) {
+            frontFileName.textContent = this.files[0].name;
+            frontFileName.style.color = 'var(--success-color)';
+        } else {
+            frontFileName.textContent = 'No file selected';
+            frontFileName.style.color = '';
+        }
+    });
+
+    backInput.addEventListener('change', function() {
+        if (this.files.length > 0) {
+            backFileName.textContent = this.files[0].name;
+            backFileName.style.color = 'var(--success-color)';
+        } else {
+            backFileName.textContent = 'No file selected';
+            backFileName.style.color = '';
+        }
+    });
+});
+</script>
+{% endblock %}
